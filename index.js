@@ -26,6 +26,12 @@ app.use((req, res, next) => {
     }
 });
 
+// ADICIONE ESTA LINHA AQUI - logo após o middleware de CORS
+app.use((req, res, next) => {
+    res.header('X-Frame-Options', 'ALLOWALL'); // Permite iframe
+    next();
+});
+
 // Configuração do cliente WhatsApp com persistência de sessão
 const client = new Client({
     authStrategy: new LocalAuth({
