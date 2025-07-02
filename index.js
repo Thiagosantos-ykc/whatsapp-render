@@ -12,6 +12,20 @@ let clientStatus = 'disconnected';
 // Middleware para processar JSON
 app.use(express.json());
 
+// ADD CORS MIDDLEWARE HERE - BEFORE YOUR ROUTES
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*'); 
+    // ou específico: 'https://741827dc-87b5-46fb-84ed-4a8af386f821.lovableproject.com'
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    
+    if (req.method === 'OPTIONS') {
+        res.sendStatus(200);
+    } else {
+        next();
+    }
+});
+
 // Configuração do cliente WhatsApp com persistência de sessão
 const client = new Client({
     authStrategy: new LocalAuth({
